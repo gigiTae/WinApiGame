@@ -48,6 +48,8 @@ enum class BRUSH_TYPE
 {
 	HOLLOW,
 	BLACK,
+	SKYBLUE,
+
 	END,
 };
 
@@ -56,6 +58,7 @@ enum class PEN_TYPE
 	RED,
 	GREEN,
 	BLUE,
+	SKYBLUE,
 	END,
 };
 

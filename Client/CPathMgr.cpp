@@ -40,3 +40,5 @@ wstring CPathMgr::GetRelativePath(const wchar_t* _filepath)
 
 	return strRelativePath;
 }
+
+// Ä¿¹Ô

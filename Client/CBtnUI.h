@@ -21,7 +21,7 @@ private:
 
     SCENE_MEMFUNC  m_pSceneFunc;
     CScene*        m_pSceneInst;
-
+    
 public:
     virtual void MouseOn();
     virtual void MouseLbtnDown();

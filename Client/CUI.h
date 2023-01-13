@@ -29,7 +29,7 @@ public:
     virtual void render(HDC _dc);
 
     
-private:
+protected:
     void update_child();
     void finalupdate_child();
     void render_child(HDC _dc);
