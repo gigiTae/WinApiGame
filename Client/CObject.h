@@ -46,9 +46,17 @@ public:
 	void CreateRigidBody();
 	void CreateGravity();
 
-	virtual void OnCollision(CCollider* _pOther) {}
 	virtual void OnCollisionEnter(CCollider* _pOther) {}
+
+	virtual void DirLeftCollision() {}
+	virtual void DirRightCollision() {}
+	virtual void DirUpCollision() {}
+	virtual void DirDownCollision() {}
+
+	virtual void OnCollision(CCollider* _pOther) {}
 	virtual void OnCollisionExit(CCollider* _pOther) {}
+
+
 
 private:
 	void SetDead() { m_bAlive = false; }

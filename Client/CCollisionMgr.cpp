@@ -91,21 +91,6 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 					}
 					else
 					{ 
-						// 둘이 처음으로 충돌한 시점
-						Vec2 pLeftPos = pLeftCol->GetPrevFinalPos();
-						Vec2 pRightPos = pRightCol->GetPrevFinalPos();
-
-						// 
-						if (pLeftPos.x > pRightPos.x)
-						{
-
-						}
-						else if (pLeftPos.x < pRightPos.x)
-						{
-
-						}
-						// 자신의 기준에서 어느 방향에서 충동한지 확인,
-
 						pLeftCol->OnCollision(pRightCol);
 						pRightCol->OnCollision(pLeftCol);
 					}
@@ -116,6 +101,36 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
                     //근데 둘중하나가 삭제 예정이러라면, 충돌하지 않은것으로 취급
 					if (!vecLeft[i]->IsDead() && !vecRight[j]->IsDead())
 					{
+						// 둘이 처음으로 충돌한 시점
+						Vec2 pLeftPos = pLeftCol->GetPrevFinalPos();
+						Vec2 pRightPos = pRightCol->GetPrevFinalPos();
+
+						// LeftCol이 오른쪽
+						if (pLeftPos.x > pRightPos.x)
+						{
+
+						}
+						else if (pLeftPos.x < pRightPos.x)
+						{
+
+						}
+						else
+						{
+							// x 좌표가 같음
+							if (pLeftPos.y > pRightPos.y)
+							{
+								pLeftCol->DirDownCollision();
+								pRightCol->DirUpCollision();
+							}
+							else
+							{
+								pLeftCol->DirUpCollision();
+								pRightCol->DirDownCollision();
+							}
+						}
+						// 자신의 기준에서 어느 방향에서 충동한지 확인,
+
+
 						pLeftCol->OnCollisionEnter(pRightCol);
 						pRightCol->OnCollisionEnter(pLeftCol);
 						iter->second = true;

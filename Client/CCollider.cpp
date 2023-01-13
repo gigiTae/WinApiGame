@@ -74,6 +74,26 @@ void CCollider::OnCollisionEnter(CCollider* _pOther)
 	m_pOwner->OnCollisionEnter(_pOther);
 }
 
+void CCollider::DirLeftCollision()
+{
+	m_pOwner->DirLeftCollision();
+}
+
+void CCollider::DirRightCollision()
+{
+	m_pOwner->DirRightCollision();
+}
+
+void CCollider::DirUpCollision()
+{
+	m_pOwner->DirUpCollision();
+}
+
+void CCollider::DirDownCollision()
+{
+	m_pOwner->DirDownCollision();
+}
+
 void CCollider::OnCollisionExit(CCollider* _pOther)
 {
 	--m_iCol;

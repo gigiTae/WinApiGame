@@ -29,6 +29,7 @@ public:
 	Vec2 GetScale() { return m_vScale; }
 
 	Vec2 GetFinalPos() { return m_vFinalPos; }
+	Vec2 GetPrevFinalPos() { return m_vPrevFinalPos; }
 
 	CObject* GetObj() { return m_pOwner; }
 
@@ -40,8 +41,15 @@ public:
 public:
 	// 충돌 시점 함수
 	void OnCollision(CCollider* _pOther); // 충돌 중인 경우 호출되는 함수
-	void OnCollisionEnter(CCollider* _pOther); // 충돌 진입시
 	void OnCollisionExit(CCollider* _pOther); // 충돌 해제시
+
+	void OnCollisionEnter(CCollider* _pOther); // 충돌 진입시
+    
+	void DirLeftCollision();
+	void DirRightCollision();
+	void DirUpCollision();
+	void DirDownCollision();
+
 
 	CCollider& operator = (CCollider& _orgin) = delete;
 

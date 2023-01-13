@@ -178,6 +178,7 @@ void CPlayer::update_gravity()
 
 }
 
+
 void CPlayer::CreateMissile()
 {
 	//CMissile* NewMissile = new CMissile;

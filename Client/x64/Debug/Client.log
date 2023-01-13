@@ -1,10 +1,2 @@
-﻿  CCollider.cpp
-  CCollisionMgr.cpp
-  CGround.cpp
-  CIdleState.cpp
-  CMissile.cpp
-  CMonster.cpp
-  CObject.cpp
-  CPlayer.cpp
-  CScene_PlayGame.cpp
+﻿  CCollisionMgr.cpp
   Client.vcxproj -> C:\Users\PC\Desktop\RunGame\Output\bin_debug\Client.exe
