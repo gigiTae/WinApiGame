@@ -90,7 +90,22 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 						iter->second = false;
 					}
 					else
-					{
+					{ 
+						// 둘이 처음으로 충돌한 시점
+						Vec2 pLeftPos = pLeftCol->GetPrevFinalPos();
+						Vec2 pRightPos = pRightCol->GetPrevFinalPos();
+
+						// 
+						if (pLeftPos.x > pRightPos.x)
+						{
+
+						}
+						else if (pLeftPos.x < pRightPos.x)
+						{
+
+						}
+						// 자신의 기준에서 어느 방향에서 충동한지 확인,
+
 						pLeftCol->OnCollision(pRightCol);
 						pRightCol->OnCollision(pLeftCol);
 					}

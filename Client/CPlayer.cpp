@@ -22,6 +22,7 @@ CPlayer::CPlayer()
 	, m_eCurState(PLAYER_STATE::IDLE)
 	, m_iDir(KEY::S)
 	, m_ePrevState(PLAYER_STATE::IDLE)
+	, m_MissileTimer(0.f)
 
 {
 	//m_pTex = CResMgr::GetInst()->LoadTexture(L"Player1Tex", L"texture\\c1.bmp");
@@ -40,8 +41,8 @@ CPlayer::CPlayer()
 	GetAnimator()->CreateAnimation(L"IDLE", pTex, Vec2(0.f, 0.f), Vec2(64.f, 64.f), Vec2(64.f, 0.f), 0.2f, 3);
 	GetAnimator()->CreateAnimation(L"WALK_LEFT", pTex, Vec2(0.f, 192.f), Vec2(64.f, 64.f), Vec2(64.f, 0.f), 0.2f, 4);
 	GetAnimator()->CreateAnimation(L"WALK_RIGHT", pTex, Vec2(0.f, 64.f), Vec2(64.f, 64.f), Vec2(64.f, 0.f), 0.2f, 4);
-	GetAnimator()->CreateAnimation(L"WALK_UP", pTex, Vec2(0.f, 128.f), Vec2(64.f, 64.f), Vec2(64.f, 0.f), 0.2f, 4);
-	GetAnimator()->CreateAnimation(L"WALK_DOWN", pTex, Vec2(0.f, 0.f), Vec2(64.f, 64.f), Vec2(64.f, 0.f), 0.2f, 4);
+	GetAnimator()->CreateAnimation(L"WALK_UP", pTex, Vec2(0.f, 128.f), Vec2(64.f, 64.f), Vec2(64.f, 0.f), 0.15f, 6);
+	GetAnimator()->CreateAnimation(L"WALK_DOWN", pTex, Vec2(0.f, 256.f), Vec2(64.f, 64.f), Vec2(64.f, 0.f), 0.2f, 4);
 	GetAnimator()->Play(L"IDLE", true);
 }
 
@@ -63,6 +64,13 @@ void CPlayer::update()
 
 	GetAnimator()->update();
 
+	m_MissileTimer += fDT;
+	if (m_MissileTimer >= 5.f)
+	{
+		CreateMissile();
+		m_MissileTimer -= 5.f;
+	}
+
 	m_ePrevState = m_eCurState;
 }
 
@@ -75,6 +83,11 @@ void CPlayer::render(HDC _dc)
 
 void CPlayer::update_state()
 {
+	if (GetRigidBody()->GetVelocity() == Vec2(0.f, 0.f))
+	{
+		m_eCurState = PLAYER_STATE::IDLE;
+	}
+
 	if (KEY_TAP(KEY::A))
 	{
 		m_iDir = KEY::A;
@@ -93,9 +106,10 @@ void CPlayer::update_state()
 	if (KEY_TAP(KEY::S))
 	{
 		m_iDir = KEY::S;
-		m_eCurState = PLAYER_STATE::IDLE;
+		m_eCurState = PLAYER_STATE::WALK;
 	}
 
+	
 }
 
 void CPlayer::update_move()
@@ -162,6 +176,11 @@ void CPlayer::update_gravity()
 {
 //	GetRigidBody()->AddForce(Vec2(0.f,500.f));
 
+}
+
+void CPlayer::CreateMissile()
+{
+	//CMissile* NewMissile = new CMissile;
 }
 
 

@@ -34,6 +34,7 @@ public:
 		return Vec2(-x, -y);
 	}
 
+
 	Vec2& operator = (POINT _pt)
 	{
 		x = (float)_pt.x;
@@ -50,6 +51,14 @@ public:
 		x += _vOther.x;
 		y += _vOther.y;
 	}
+
+	bool operator == (Vec2 _vOther)
+	{
+		if (x == _vOther.x && y == _vOther.y)
+			return true;
+		return false;
+	}
+
 
 	Vec2 operator -(Vec2 _vother)
 	{

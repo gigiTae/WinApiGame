@@ -36,6 +36,9 @@ CCollider::~CCollider()
 
 void CCollider::finalupdate()
 {
+	// 이전 프레임 FinalPos 
+	m_vPrevFinalPos = m_vFinalPos;
+	
 	// Object 의 위치를 따라간다.
 	Vec2 vObjectPos = m_pOwner->GetPos();
 	m_vFinalPos = vObjectPos + m_vOffsetPos;

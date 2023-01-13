@@ -34,6 +34,8 @@ private:
     PLAYER_STATE   m_ePrevState;
     KEY            m_iDir;
 
+    float          m_MissileTimer;
+
 public:
     virtual void update();
     virtual void render(HDC _dc);
@@ -43,6 +45,8 @@ private:
     void update_move();
     void update_animation();
     void update_gravity();
+
+    void CreateMissile();
 
     CLONE(CPlayer);
 public:
