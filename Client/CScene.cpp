@@ -196,5 +196,5 @@ void CScene::LoadTile(const wstring& _strRelativePath)
 
 	// 이제는 저장이 가능할까여?
 
-
+	// 이제 확인 가능한가?
  }
