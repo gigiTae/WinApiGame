@@ -8,8 +8,8 @@ CRigidBody::CRigidBody()
 	:m_pOwner(nullptr)
 	,m_vForce{}
 	,m_fMass(1.f)
-	,m_fFircCoeff(100.f)
-	,m_fMaxSpeed(300.f)
+	,m_fFircCoeff(1000.f)
+	,m_fMaxSpeed(250.f)
 {
 }
 

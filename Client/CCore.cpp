@@ -125,7 +125,7 @@ void CCore::progress()
 
 void CCore::Clear()
 {
-	SelectGDI gdi(m_pMemTex->GetDC(), BRUSH_TYPE::BLACK);
+	SelectGDI gdi(m_pMemTex->GetDC(), BRUSH_TYPE::SKYBLUE);
 
 	Rectangle(m_pMemTex->GetDC(), -1, -1, m_ptRseolution.x + 1, m_ptRseolution.y + 1);
 }
@@ -137,6 +137,8 @@ void CCore::CreateBrushPen()
 	m_arrBrush[(UINT)BRUSH_TYPE::HOLLOW] = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
 	m_arrBrush[(UINT)BRUSH_TYPE::BLACK] = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	m_arrBrush[(UINT)BRUSH_TYPE::SKYBLUE] = CreateSolidBrush(RGB(203, 219, 252));
+	m_arrBrush[(UINT)BRUSH_TYPE::DARKBLUE] = CreateSolidBrush(RGB(63, 63, 116));
+	m_arrBrush[(UINT)BRUSH_TYPE::RED] = CreateSolidBrush(RGB(255, 0, 0));
 
 
     // red pen	// green pen	// blue pen
@@ -144,6 +146,7 @@ void CCore::CreateBrushPen()
 	m_arrPen[(UINT)PEN_TYPE::BLUE] = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
 	m_arrPen[(UINT)PEN_TYPE::GREEN] = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
 	m_arrPen[(UINT)PEN_TYPE::SKYBLUE] = CreatePen(PS_SOLID, 1, RGB(203, 219, 252));
+	m_arrPen[(UINT)PEN_TYPE::DARKBLUE] = CreatePen(PS_SOLID, 1, RGB(63, 63, 116));
 }
 
 void CCore::DockMenu()

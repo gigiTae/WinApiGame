@@ -113,8 +113,8 @@ void CScene::render_tile(HDC _dc)
 	{
 		for (int iCurCol = iLTCol; iCurCol < (iLTCol + iClientWidth); ++iCurCol)
 		{
-			if (iCurCol < 0 || m_iTileX <= iCurCol
-				|| iCurRow < 0 || m_iTileY <= iCurRow)
+			if (iCurCol < 0 || m_iTileX <= (UINT)iCurCol
+				|| iCurRow < 0 || m_iTileY <= (UINT)iCurRow)
 				continue;
 
 			int iIdx = (m_iTileX * iCurRow) + iCurCol;
@@ -194,7 +194,5 @@ void CScene::LoadTile(const wstring& _strRelativePath)
 
 	fclose(pFile);
 
-	// 이제는 저장이 가능할까여?
 
-	// 이제 확인 가능한가?
  }

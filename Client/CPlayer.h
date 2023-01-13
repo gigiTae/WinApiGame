@@ -39,7 +39,6 @@ public:
     virtual void render(HDC _dc);
 
 private:
-    void CreateMissile();
     void update_state();
     void update_move();
     void update_animation();

@@ -12,7 +12,7 @@
 
 CCamera::CCamera()
 	: m_pTargetObj(nullptr)
-	, m_fTime(2.f)
+	, m_fTime(0.f)
 	, m_fSpeed(0.f)
 	, m_fAccTime(0.f)
 	, m_pVeilTex(nullptr)
