@@ -23,8 +23,8 @@
   CResMgr.cpp
   CRigidBody.cpp
   CScene.cpp
-C:\Users\PC\Desktop\RunGame\Client\CScene.cpp(116,32): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\PC\Desktop\RunGame\Client\CScene.cpp(117,32): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\PC\Desktop\RunGame - 복사본\Client\CScene.cpp(116,32): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\PC\Desktop\RunGame - 복사본\Client\CScene.cpp(117,32): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
   CSceneMgr.cpp
   CSceneOption.cpp
   CScene_PlayGame.cpp
@@ -42,4 +42,4 @@ C:\Users\PC\Desktop\RunGame\Client\CScene.cpp(117,32): warning C4018: '<=': sign
   func.cpp
   main.cpp
   SelectGDI.cpp
-  Client.vcxproj -> C:\Users\PC\Desktop\RunGame\Output\bin_debug\Client.exe
+  Client.vcxproj -> C:\Users\PC\Desktop\RunGame - 복사본\Output\bin_debug\Client.exe

@@ -194,4 +194,7 @@ void CScene::LoadTile(const wstring& _strRelativePath)
 
 	fclose(pFile);
 
+	// 이제는 저장이 가능할까여?
+
+
  }
