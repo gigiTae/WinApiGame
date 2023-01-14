@@ -104,23 +104,32 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 						// 둘이 처음으로 충돌한 시점
 						Vec2 pLeftPos = pLeftCol->GetPrevFinalPos();
 						Vec2 pRightPos = pRightCol->GetPrevFinalPos();
+						Vec2 pLeftScale = pLeftCol->GetScale();
+						Vec2 pRightScale = pRightCol->GetScale();
 
-						// LeftCol이 오른쪽
-						if (pLeftPos.x > pRightPos.x)
+						if (pLeftPos.x > pRightPos.x && pLeftPos.y >= pRightPos.y ) // 우상단
 						{
-
-						}
-						else if (pLeftPos.x < pRightPos.x)
-						{
-
-						}
-						else
-						{
-							// x 좌표가 같음
-							if (pLeftPos.y > pRightPos.y)
+							Vec2 pLeftVertex = pLeftPos + Vec2(-pLeftScale.x / 2, -pLeftScale.y / 2);
+							Vec2 pRightVertex = pRightPos + Vec2(pRightScale.x / 2, pRightScale.y / 2);
+							if (pLeftVertex.y > pRightVertex.y)
 							{
-								pLeftCol->DirDownCollision();
+  							    pLeftCol->DirDownCollision();
 								pRightCol->DirUpCollision();
+							}
+							else
+							{
+								pLeftCol->DirLeftCollision();
+								pRightCol->DirRightCollision();
+							}
+						}
+						else if (pLeftPos.x > pRightPos.x && pLeftPos.y < pRightPos.y) // 우하단
+						{
+							Vec2 pLeftVertex = pLeftPos + Vec2(-pLeftScale.x / 2, pLeftScale.y / 2);
+							Vec2 pRightVertex = pRightPos + Vec2(pRightScale.x / 2, -pRightScale.y / 2);
+							if (pLeftVertex.y > pRightVertex.y)
+							{
+								pLeftCol->DirLeftCollision();
+								pRightCol->DirRightCollision();
 							}
 							else
 							{
@@ -128,6 +137,41 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 								pRightCol->DirDownCollision();
 							}
 						}
+						else if (pLeftPos.x <= pRightPos.x && pLeftPos.y >= pRightPos.y) // 좌상단
+						{
+							Vec2 pLeftVertex = pLeftPos + Vec2(+pLeftScale.x / 2, -pLeftScale.y / 2);
+							Vec2 pRightVertex = pRightPos + Vec2(-pRightScale.x / 2, +pRightScale.y / 2);
+							if (pLeftVertex.y > pRightVertex.y)
+							{
+								pLeftCol->DirDownCollision();
+								pRightCol->DirUpCollision();
+							}
+							else
+							{
+								pLeftCol->DirRightCollision();
+								pRightCol->DirLeftCollision();
+							}
+						}
+						else if (pLeftPos.x <= pRightPos.x && pLeftPos.y < pRightPos.y) // 좌하단
+						{
+							Vec2 pLeftVertex = pLeftPos + Vec2(+pLeftScale.x / 2, +pLeftScale.y / 2);
+							Vec2 pRightVertex = pRightPos + Vec2(-pRightScale.x / 2, -pRightScale.y / 2);
+							if (pLeftVertex.y > pRightVertex.y)
+							{
+								pLeftCol->DirRightCollision();
+								pRightCol->DirLeftCollision();
+							}
+							else
+							{
+								pLeftCol->DirUpCollision();
+								pRightCol->DirDownCollision();
+							}
+						}
+						else
+						{
+							assert(nullptr);
+						}
+				
 						// 자신의 기준에서 어느 방향에서 충동한지 확인,
 
 
