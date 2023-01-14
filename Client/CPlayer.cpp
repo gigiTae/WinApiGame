@@ -23,7 +23,10 @@ CPlayer::CPlayer()
 	, m_iDir(KEY::S)
 	, m_ePrevState(PLAYER_STATE::IDLE)
 	, m_MissileTimer(0.f)
-
+	,m_CanMoveW(0)
+	,m_CanMoveA(0)
+	,m_CanMoveS(0)
+	,m_CanMoveD(0)
 {
 	//m_pTex = CResMgr::GetInst()->LoadTexture(L"Player1Tex", L"texture\\c1.bmp");
 
@@ -176,6 +179,23 @@ void CPlayer::update_gravity()
 {
 //	GetRigidBody()->AddForce(Vec2(0.f,500.f));
 
+}
+
+void CPlayer::DirLeftCollision()
+{
+	
+}
+
+void CPlayer::DirRightCollision()
+{
+}
+
+void CPlayer::DirUpCollision()
+{
+}
+
+void CPlayer::DirDownCollision()
+{
 }
 
 

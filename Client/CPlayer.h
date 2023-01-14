@@ -35,6 +35,10 @@ private:
     KEY            m_iDir;
 
     float          m_MissileTimer;
+    int            m_CanMoveW;
+    int            m_CanMoveA;
+    int            m_CanMoveS;
+    int            m_CanMoveD;
 
 public:
     virtual void update();
@@ -45,6 +49,12 @@ private:
     void update_move();
     void update_animation();
     void update_gravity();
+
+private:
+    virtual void DirLeftCollision();
+    virtual void DirRightCollision();
+    virtual void DirUpCollision();
+    virtual void DirDownCollision();
 
     void CreateMissile();
 
