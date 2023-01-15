@@ -11,6 +11,7 @@ private:
     int       m_iImgIdx;
 
 public:
+    int GetImgIdx() { return m_iImgIdx; }
     void SetTexture(CTexture* _pTex)
     {
         m_pTileTex = _pTex;

@@ -51,18 +51,10 @@ private:
     void update_gravity();
 
 private:
-    virtual void DirLeftCollision();
-    virtual void DirRightCollision();
-    virtual void DirUpCollision();
-    virtual void DirDownCollision();
+    virtual void OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct);
+    virtual void OnCollisionExit(CCollider* _pOther, CollisionDirect _direct);
 
     void CreateMissile();
-
-
-    virtual void DirLeftCollision();
-    virtual void DirRightCollision();
-    virtual void DirUpCollision();
-    virtual void DirDownCollision();
 
     CLONE(CPlayer);
 public:

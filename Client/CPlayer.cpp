@@ -86,11 +86,7 @@ void CPlayer::render(HDC _dc)
 
 void CPlayer::update_state()
 {
-	if (GetRigidBody()->GetVelocity() == Vec2(0.f, 0.f))
-	{
-		m_eCurState = PLAYER_STATE::IDLE;
-	}
-
+	
 	if (KEY_TAP(KEY::A))
 	{
 		m_iDir = KEY::A;
@@ -111,8 +107,11 @@ void CPlayer::update_state()
 		m_iDir = KEY::S;
 		m_eCurState = PLAYER_STATE::WALK;
 	}
+	if (GetRigidBody()->GetVelocity() == Vec2(0.f, 0.f) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D) && KEY_NONE(KEY::A) && KEY_NONE(KEY::W))
+	{
+		m_eCurState = PLAYER_STATE::IDLE;
+	}
 
-	
 }
 
 void CPlayer::update_move()
@@ -120,19 +119,19 @@ void CPlayer::update_move()
 
 	CRigidBody* pRigid = GetRigidBody();
 
-	if (KEY_HOLD(KEY::W))
+	if (KEY_HOLD(KEY::W) && m_CanMoveW == 0)
 	{
 		pRigid->AddForce(Vec2(0.f, -1500.f));
 	}
-	if (KEY_HOLD(KEY::S))
+	if (KEY_HOLD(KEY::S) && m_CanMoveS == 0)
 	{
 		pRigid->AddForce(Vec2(0.f, 1500.f));
 	}
-	if (KEY_HOLD(KEY::A))
+	if (KEY_HOLD(KEY::A) && m_CanMoveA == 0)
 	{
 		pRigid->AddForce(Vec2(-1500.f, 0.f));
 	}
-	if (KEY_HOLD(KEY::D))
+	if (KEY_HOLD(KEY::D) && m_CanMoveD == 0)
 	{
 		pRigid->AddForce(Vec2(1500.f, 0.f));
 	}
@@ -181,48 +180,40 @@ void CPlayer::update_gravity()
 
 }
 
-void CPlayer::DirLeftCollision()
+
+
+
+void CPlayer::OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct)
 {
-	
+	GetRigidBody()->SetVelocity(Vec2(0.f, 0.f));
+
+	if (_direct == CollisionDirect::LEFT)
+		++m_CanMoveA;
+	if (_direct == CollisionDirect::RIGHT)
+		++m_CanMoveD;
+	if (_direct == CollisionDirect::DOWN)
+		++m_CanMoveS;
+	if (_direct == CollisionDirect::UP)
+		++m_CanMoveW;
 }
 
-void CPlayer::DirRightCollision()
+void CPlayer::OnCollisionExit(CCollider* _pOther, CollisionDirect _direct)
 {
+	if (_direct == CollisionDirect::LEFT)
+		--m_CanMoveA;
+	if (_direct == CollisionDirect::RIGHT)
+		--m_CanMoveD;
+	if (_direct == CollisionDirect::DOWN)
+		--m_CanMoveS;
+	if (_direct == CollisionDirect::UP)
+		--m_CanMoveW;
 }
-
-void CPlayer::DirUpCollision()
-{
-}
-
-void CPlayer::DirDownCollision()
-{
-}
-
 
 void CPlayer::CreateMissile()
 {
 	//CMissile* NewMissile = new CMissile;
 }
 
-void CPlayer::DirLeftCollision()
-{
-	int a = 0;
-}
-
-void CPlayer::DirRightCollision()
-{
-	int a = 0;
-}
-
-void CPlayer::DirUpCollision()
-{
-	int a = 0;
-}
-
-void CPlayer::DirDownCollision()
-{
-	int a = 0;
-}
 
 
 

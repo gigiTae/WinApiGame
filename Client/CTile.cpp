@@ -9,10 +9,6 @@ CTile::CTile()
 	,m_iImgIdx(0)
 {
 	SetScale(Vec2(TILE_SIZE, TILE_SIZE));
-
-	//CreateCollider();
-	//GetCollider()->SetOffsetPos(Vec2(32.f, 32.f));
-	//GetCollider()->SetScale(Vec2(64.f, 64.f));
 }
 
 CTile::~CTile()
@@ -54,7 +50,7 @@ void CTile::render(HDC _dc)
 		, iCurRow * TILE_SIZE
 		, SRCCOPY);
 
-	component_render(_dc);
+	//component_render(_dc);
 }
 
 void CTile::Save(FILE* _pFile)
@@ -65,4 +61,5 @@ void CTile::Save(FILE* _pFile)
 void CTile::Load(FILE* _pFile)
 {
 	fread(&m_iImgIdx, sizeof(int), 1, _pFile);
+
 }

@@ -86,3 +86,12 @@ enum class MON_STATE
 	DEAD,
 	END,
 };
+
+enum class CollisionDirect // 충돌방향
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	NOINFO, // 충돌하지 않음
+};
