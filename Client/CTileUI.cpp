@@ -8,6 +8,7 @@
 #include "CScene.h"
 #include "CScene_Tool.h"
 
+#include "CkeyMgr.h"
 
 CTileUI::CTileUI()
 	:CUI(false)
@@ -44,5 +45,15 @@ void CTileUI::render(HDC _dc)
 
 void CTileUI::MouseLbtnClicked()
 {
-	m_pScene->SetImgIdx(8);
+	int ImgIdx = -1;
+
+	Vec2 MousePos =CKeyMgr::GetInst()->GetMousePos();
+	Vec2 TilePos = GetFinalPos();
+
+	Vec2 CurPos = MousePos - TilePos;
+	int x=(int)CurPos.x / TILE_SIZE;
+	int y=(int)CurPos.y / TILE_SIZE;
+
+	ImgIdx = 3 * y + x;
+	m_pScene->SetImgIdx(ImgIdx);
 }
