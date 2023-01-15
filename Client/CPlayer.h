@@ -48,6 +48,12 @@ private:
 
     void CreateMissile();
 
+
+    virtual void DirLeftCollision();
+    virtual void DirRightCollision();
+    virtual void DirUpCollision();
+    virtual void DirDownCollision();
+
     CLONE(CPlayer);
 public:
     CPlayer();

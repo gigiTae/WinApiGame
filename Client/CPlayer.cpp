@@ -184,6 +184,26 @@ void CPlayer::CreateMissile()
 	//CMissile* NewMissile = new CMissile;
 }
 
+void CPlayer::DirLeftCollision()
+{
+	int a = 0;
+}
+
+void CPlayer::DirRightCollision()
+{
+	int a = 0;
+}
+
+void CPlayer::DirUpCollision()
+{
+	int a = 0;
+}
+
+void CPlayer::DirDownCollision()
+{
+	int a = 0;
+}
+
 
 
 //int iWidth = (int)m_pTex->Whidth();
