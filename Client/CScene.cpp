@@ -193,6 +193,7 @@ void CScene::LoadTile(const wstring& _strRelativePath)
 		((CTile*)vecTile[i])->Load(pFile);
 		if (((CTile*)vecTile[i])->GetImgIdx() != 4)
 		{
+			vecTile[i]->SetName(L"Tile");
 			vecTile[i]->CreateCollider();
 			vecTile[i]->GetCollider()->SetOffsetPos(Vec2(32.f, 32.f));
 			vecTile[i]->GetCollider()->SetScale(Vec2(64.f, 64.f));

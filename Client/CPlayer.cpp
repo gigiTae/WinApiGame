@@ -5,6 +5,7 @@
 #include "CScene.h"
 #include "CkeyMgr.h"
 #include "CTimeMgr.h"
+#include "CEventMgr.h"
 
 #include "CMissile.h"
 #include "CTexture.h"
@@ -31,8 +32,8 @@ CPlayer::CPlayer()
 	//m_pTex = CResMgr::GetInst()->LoadTexture(L"Player1Tex", L"texture\\c1.bmp");
 
 	CreateCollider();
-	GetCollider()->SetOffsetPos(Vec2(0.f, 24.f));
-	GetCollider()->SetScale(Vec2(32.f, 28.f));
+	GetCollider()->SetOffsetPos(Vec2(0.f, 18.f));
+	GetCollider()->SetScale(Vec2(24.f, 28.f));
 	
 	CreateRigidBody();
 
@@ -185,33 +186,68 @@ void CPlayer::update_gravity()
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct)
 {
-	GetRigidBody()->SetVelocity(Vec2(0.f, 0.f));
-
-	if (_direct == CollisionDirect::LEFT)
-		++m_CanMoveA;
-	if (_direct == CollisionDirect::RIGHT)
-		++m_CanMoveD;
-	if (_direct == CollisionDirect::DOWN)
-		++m_CanMoveS;
-	if (_direct == CollisionDirect::UP)
-		++m_CanMoveW;
+	wstring name = _pOther->GetObj()->GetName();
+	if (name == L"Tile")
+	{
+		GetRigidBody()->SetVelocity(Vec2(0.f, 0.f));
+		if (_direct == CollisionDirect::LEFT)
+		{
+			++m_CanMoveA;
+			Vec2 vPos = GetPos();
+			vPos.x += 1.f;
+			SetPos(vPos);
+		}
+		if (_direct == CollisionDirect::RIGHT)
+		{
+			++m_CanMoveD;
+			Vec2 vPos = GetPos();
+			vPos.x -= 1.f;
+			SetPos(vPos);
+		}
+		if (_direct == CollisionDirect::DOWN)
+		{
+			++m_CanMoveS;
+			Vec2 vPos = GetPos();
+			vPos.y -= 1.f;
+			SetPos(vPos);
+		}
+		if (_direct == CollisionDirect::UP)
+		{
+			++m_CanMoveW;
+			Vec2 vPos = GetPos();
+			vPos.y += 1.f;
+			SetPos(vPos);
+		}
+	}
 }
 
 void CPlayer::OnCollisionExit(CCollider* _pOther, CollisionDirect _direct)
 {
-	if (_direct == CollisionDirect::LEFT)
-		--m_CanMoveA;
-	if (_direct == CollisionDirect::RIGHT)
-		--m_CanMoveD;
-	if (_direct == CollisionDirect::DOWN)
-		--m_CanMoveS;
-	if (_direct == CollisionDirect::UP)
-		--m_CanMoveW;
+	wstring name = _pOther->GetObj()->GetName();
+	if (name == L"Tile")
+	{
+		if (_direct == CollisionDirect::LEFT)
+			--m_CanMoveA;
+		if (_direct == CollisionDirect::RIGHT)
+			--m_CanMoveD;
+		if (_direct == CollisionDirect::DOWN)
+			--m_CanMoveS;
+		if (_direct == CollisionDirect::UP)
+			--m_CanMoveW;
+	}
 }
 
 void CPlayer::CreateMissile()
 {
-	//CMissile* NewMissile = new CMissile;
+	Vec2 PlayerPos =GetPos();
+	CMissile* NewMissile = new CMissile;
+	NewMissile->SetPos(PlayerPos);
+	NewMissile->SetScale(Vec2(20.f, 20.f));
+	tEvent evn = {};
+	evn.eEven = EVENT_TYPE::CREATE_OBJECT;
+	evn.lParam = (DWORD_PTR)NewMissile;
+	evn.wParam = (DWORD_PTR)GROUP_TYPE::PROJ_PLAYER;
+	CEventMgr::GetInst()->AddEvent(evn);
 }
 
 
