@@ -5,6 +5,7 @@
 
 #include <Windows.h>
 #include <iostream>
+#include <random>
 
 #include <vector>
 using std::vector;

@@ -4,17 +4,18 @@
 #include "CTimeMgr.h"
 #include "CCollider.h"
 #include "SelectGDI.h"
+#include "CRigidBody.h"
 
-void CMissile::update()
-{
-}
-
+#include "CCollisionMgr.h"
 
 
 CMissile::CMissile()
+	:vDirect(Vec2(0.f,0.f))
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(10.f, 10.f));
+	GetRigidBody();
+
 }
 
 CMissile::~CMissile()
@@ -33,6 +34,40 @@ void CMissile::render(HDC _dc)
 		, (int)(vRenderPos.x - m_vScale.x / 2.f)
 		, (int)(vRenderPos.y - m_vScale.y / 2.f));
 
-	component_render(_dc);
+	//component_render(_dc);
 
 }
+
+void CMissile::OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct)
+{
+	GetRigidBody()->SetVelocity(Vec2(0.f, 0.f));
+	if (_direct == CollisionDirect::LEFT)
+	{
+		if (vDirect.x < 0)
+			vDirect.x = -vDirect.x;
+	}
+	else if (_direct == CollisionDirect::RIGHT)
+	{
+		if (vDirect.x > 0)
+			vDirect.x = -vDirect.x;
+	}
+	else if (_direct == CollisionDirect::DOWN)
+	{
+		if (vDirect.y > 0)
+			vDirect.y = -vDirect.y;
+	}
+	else if (_direct == CollisionDirect::UP)
+	{
+		if (vDirect.y < 0)
+			vDirect.y = -vDirect.y;
+	}
+}
+
+void CMissile::update()
+{
+	Vec2 Force = vDirect * 10000;
+	GetRigidBody()->AddForce(Force);
+
+}
+
+

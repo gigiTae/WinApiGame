@@ -17,6 +17,7 @@
 
 #include "resource.h"
 
+
 CCore::CCore()
 	:m_hWnd(0)
 	,m_ptRseolution{}
@@ -66,6 +67,7 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	// 자주 사용 할 펜 브러쉬 생성
 	CreateBrushPen();
 
+	
 
 	//Manager 초기화
 	CPathMgr::GetInst()->init();

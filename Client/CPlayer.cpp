@@ -240,9 +240,22 @@ void CPlayer::OnCollisionExit(CCollider* _pOther, CollisionDirect _direct)
 void CPlayer::CreateMissile()
 {
 	Vec2 PlayerPos =GetPos();
+	PlayerPos += Vec2(0.f, -5.f);
 	CMissile* NewMissile = new CMissile;
 	NewMissile->SetPos(PlayerPos);
 	NewMissile->SetScale(Vec2(20.f, 20.f));
+	NewMissile->CreateRigidBody();
+
+	// 랜덤 방향 발사
+
+	
+	//난수 초기화
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> dir(-99, 99);
+	Vec2 Direct = Vec2((float)dir(gen), 100.f);
+	Direct.Nomalize();
+	NewMissile->SetvDirect(Direct);
 	tEvent evn = {};
 	evn.eEven = EVENT_TYPE::CREATE_OBJECT;
 	evn.lParam = (DWORD_PTR)NewMissile;
