@@ -48,6 +48,7 @@ enum class BRUSH_TYPE
 {
 	HOLLOW,
 	BLACK,
+	WHITE,
 	SKYBLUE,
 	DARKBLUE,
 	RED,

@@ -19,6 +19,8 @@
 
 #include "CCamera.h"
 
+#include "CResMgr.h"
+#include "CTexture.h"
 #include "CBtnUI.h"
 #include "SelectGDI.h"
 #include "CTimeMgr.h"
@@ -48,33 +50,42 @@ void CScene_Start::Enter()
 	// ----------------------
 	CFixedUI* MainUI = new CFixedUI;
 	MainUI->SetName(L"MainUI");
-	MainUI->SetPos(Vec2(250.f, 150.f));
-	MainUI->SetScale(Vec2(400.f, 300.f));
+	Vec2 uiPos =vResolution / 2 - Vec2(150.f, 150.f);
+	MainUI->SetPos(uiPos);
+	MainUI->SetScale(Vec2(300.f, 300.f));
  
 	
 	CBtnUI* StartGameUI = new CBtnUI;
 	StartGameUI->SetName(L"StartGameUI");
-	StartGameUI->SetPos(Vec2(100.f, 50.f));
-	StartGameUI->SetScale(Vec2(200.f, 50.f));
+	StartGameUI->SetPos(Vec2(0.f, 0.f));
+	StartGameUI->SetScale(Vec2(300.f, 100.f));
+	CTexture* starttex = CResMgr::GetInst()->LoadTexture(L"StartUITex", L"texture\\StartUI.bmp");
+	StartGameUI->SetTexture(starttex);
 	((CBtnUI*)StartGameUI)->SetClikedCallBack(this, (SCENE_MEMFUNC)&CScene_Start::GameStart);
 	MainUI->AddChild(StartGameUI);
 
 	CBtnUI* OptionUI = new CBtnUI;
 	OptionUI->SetName(L"EndGameUI");
-	OptionUI->SetPos(Vec2(100.f, 125.f));
-	OptionUI->SetScale(Vec2(200.f, 50.f));
+	OptionUI->SetPos(Vec2(0.f, 100.f));
+	OptionUI->SetScale(Vec2(300.f, 100.f));
+	CTexture* Optiontex = CResMgr::GetInst()->LoadTexture(L"OPtionUITex", L"texture\\OptionUI.bmp");
+	OptionUI->SetTexture(Optiontex);
 	((CBtnUI*)OptionUI)->SetClikedCallBack(this, (SCENE_MEMFUNC)&CScene_Start::Option);
 
 	MainUI->AddChild(OptionUI);
 
 	CBtnUI* EndGameUI = new CBtnUI;
 	EndGameUI->SetName(L"EndGameUI");
-	EndGameUI->SetPos(Vec2(100.f, 200.f));
-	EndGameUI->SetScale(Vec2(200.f, 50.f));
+	EndGameUI->SetPos(Vec2(0.f, 200.f));
+	EndGameUI->SetScale(Vec2(300.f, 100.f));
+	CTexture* EndGametex = CResMgr::GetInst()->LoadTexture(L"EndGametex", L"texture\\ExitUI.bmp");
+	EndGameUI->SetTexture(EndGametex);
 	((CBtnUI*)EndGameUI)->SetClikedCallBack(this, (SCENE_MEMFUNC)&CScene_Start::EndGame);
 	MainUI->AddChild(EndGameUI);
 
 	AddObject(MainUI, GROUP_TYPE::UI);
+
+
 
 	// 충돌 지정
 

@@ -252,8 +252,8 @@ void CPlayer::CreateMissile()
 	//난수 초기화
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution<int> dir(-99, 99);
-	Vec2 Direct = Vec2((float)dir(gen), 100.f);
+	std::uniform_int_distribution<int> dir(-200, 200);
+	Vec2 Direct = Vec2((float)dir(gen), -100.f);
 	Direct.Nomalize();
 	NewMissile->SetvDirect(Direct);
 	tEvent evn = {};

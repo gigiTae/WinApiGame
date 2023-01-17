@@ -27,7 +27,8 @@ void CMissile::render(HDC _dc)
 	Vec2 m_vScale = GetScale();
 	Vec2 vRenderPos = CCamera::GetInst()->GetRenderPos(m_vPos);
 
-	SelectGDI gdi(_dc, BRUSH_TYPE::DARKBLUE);
+	SelectGDI pen(_dc, PEN_TYPE::RED);
+	SelectGDI gdi(_dc, BRUSH_TYPE::RED);
 	Ellipse(_dc
 		, (int)(vRenderPos.x + m_vScale.x / 2.f)
 		, (int)(vRenderPos.y + m_vScale.y / 2.f)
@@ -65,7 +66,7 @@ void CMissile::OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct)
 
 void CMissile::update()
 {
-	Vec2 Force = vDirect * 10000;
+	Vec2 Force = vDirect * 20000;
 	GetRigidBody()->AddForce(Force);
 
 }

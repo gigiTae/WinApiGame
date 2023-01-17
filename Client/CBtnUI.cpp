@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CBtnUI.h"
 
+#include "SelectGDI.h"
 
 CBtnUI::CBtnUI()
 	:CUI(false)
@@ -16,6 +17,14 @@ CBtnUI::~CBtnUI()
 {
 }
 
+
+void CBtnUI::render(HDC _dc)
+{
+	SelectGDI selectpen(_dc, PEN_TYPE::SKYBLUE);
+	SelectGDI selectbrush(_dc, BRUSH_TYPE::DARKBLUE);
+	CUI::render(_dc);
+
+}
 
 void CBtnUI::MouseOn()
 {

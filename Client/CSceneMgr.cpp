@@ -41,7 +41,7 @@ void CSceneMgr::init()
 	m_arrScene[(UINT)SCENE_TYPE::OPTION]->SetName(L"Option Scene");
 
 	// ÇöÀç ¾À ÁöÁ¤
-	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::PLAYGMAE];
+	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::START];
 	m_pCurScene->Enter();
 }
 

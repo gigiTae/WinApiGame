@@ -149,6 +149,9 @@
     <Filter Include="Engine\05.Scene\SCene_Option">
       <UniqueIdentifier>{6d3392cc-b7aa-4c78-971a-fc19cb56b088}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04.Object\UI\NumberUI">
+      <UniqueIdentifier>{d728dbbe-149b-44f5-b9ab-a1b1dc69db6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCore.h">
