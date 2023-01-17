@@ -14,6 +14,7 @@
 #include "CResMgr.h"
 #include "CTexture.h"
 #include "SelectGDI.h"
+#include "CGameMgr.h"
 
 #include "resource.h"
 

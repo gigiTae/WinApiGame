@@ -11,6 +11,7 @@ private:
 public:
     virtual void Enter(); // 부모쪽에서 상속받은 가상함수르 virtual 을 이용해서 표시하자
     virtual void Exit();
+    virtual void update();
 
 public:
 

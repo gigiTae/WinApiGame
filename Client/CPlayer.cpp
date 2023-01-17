@@ -28,6 +28,7 @@ CPlayer::CPlayer()
 	,m_CanMoveA(0)
 	,m_CanMoveS(0)
 	,m_CanMoveD(0)
+	, m_Hp(3)
 {
 	//m_pTex = CResMgr::GetInst()->LoadTexture(L"Player1Tex", L"texture\\c1.bmp");
 
@@ -219,6 +220,15 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct)
 			SetPos(vPos);
 		}
 	}
+	if (name == L"Missile")
+	{
+		--m_Hp;
+		tEvent eve = {};
+		eve.eEven = EVENT_TYPE::DELETE_OBJECT;
+		eve.lParam = (DWORD_PTR)_pOther->GetObj();
+
+		CEventMgr::GetInst()->AddEvent(eve);
+	}
 }
 
 void CPlayer::OnCollisionExit(CCollider* _pOther, CollisionDirect _direct)
@@ -242,6 +252,7 @@ void CPlayer::CreateMissile()
 	Vec2 PlayerPos =GetPos();
 	PlayerPos += Vec2(0.f, -5.f);
 	CMissile* NewMissile = new CMissile;
+	NewMissile->SetName(L"Missile");
 	NewMissile->SetPos(PlayerPos);
 	NewMissile->SetScale(Vec2(20.f, 20.f));
 	NewMissile->CreateRigidBody();

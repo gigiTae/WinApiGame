@@ -149,6 +149,7 @@
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CEventMgr.h" />
     <ClInclude Include="CFixedUI.h" />
+    <ClInclude Include="CGameMgr.h" />
     <ClInclude Include="CGravity.h" />
     <ClInclude Include="CGround.h" />
     <ClInclude Include="CIdleState.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CFixedUI.cpp" />
+    <ClCompile Include="CGameMgr.cpp" />
     <ClCompile Include="CGravity.cpp" />
     <ClCompile Include="CGround.cpp" />
     <ClCompile Include="CIdleState.cpp" />

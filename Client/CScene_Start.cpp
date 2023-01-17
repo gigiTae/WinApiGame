@@ -38,7 +38,7 @@ CScene_Start::~CScene_Start()
 
 void CScene_Start::update()
 {
-
+	
 }
 
 

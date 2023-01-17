@@ -11,6 +11,7 @@
 #include "CBtnUI.h"
 #include "CNumberUI.h"
 
+#include "CGameMgr.h"
 #include "CUI.h"
 #include "CPanelUI.h"
 #include "CMonster.h"
@@ -42,11 +43,11 @@ void CScene_PlayGame::Enter()
 	Player->SetScale(Vec2(50.f, 50.f));
 
 	AddObject(Player, GROUP_TYPE::PLAYER);
-
 	CFixedUI* Panel = new CFixedUI;
 	Panel->SetPos(Vec2(800.f, 20.f));
 	Panel->SetScale(Vec2(150.f, 510.f));
 
+	CGameMgr::GetInst()->SetmPlayer(Player);
 
 	// ===================
     //      LEVEL  UI
@@ -63,6 +64,8 @@ void CScene_PlayGame::Enter()
 	numUI->SetPos(Vec2(100.f, 200.f));
 	numUI->SetScale(Vec2(50.f, 100.f));
 	Panel->AddChild(numUI);
+
+	CGameMgr::GetInst()->SetmHpUI(numUI);
 
 	// ===================
 	//       ¸ñ¼û UI
@@ -113,7 +116,7 @@ void CScene_PlayGame::Enter()
 	Panel->AddChild(ExitGameUI);
 
 	AddObject(Panel, GROUP_TYPE::UI);
-	//CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::PROJ_PLAYER);
+	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::PROJ_PLAYER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::TILE);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PROJ_PLAYER, GROUP_TYPE::TILE);
 	CCamera::GetInst()->SetLookAt(Player->GetPos());
@@ -122,6 +125,13 @@ void CScene_PlayGame::Enter()
 void CScene_PlayGame::Exit()
 {
 	DeleteAll();
+}
+
+void CScene_PlayGame::update()
+{
+	CScene::update();
+
+	CGameMgr::GetInst()->update();
 }
 
 CScene_PlayGame::CScene_PlayGame()

@@ -152,6 +152,9 @@
     <Filter Include="Engine\04.Object\UI\NumberUI">
       <UniqueIdentifier>{d728dbbe-149b-44f5-b9ab-a1b1dc69db6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03. Manager\GameMgr">
+      <UniqueIdentifier>{91ededb9-81fa-420b-aad4-2264288639ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCore.h">
@@ -299,6 +302,9 @@
     <ClInclude Include="CNumberUI.h">
       <Filter>Engine\04.Object\UI\NumberUI</Filter>
     </ClInclude>
+    <ClInclude Include="CGameMgr.h">
+      <Filter>Engine\03. Manager\GameMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -440,6 +446,9 @@
     </ClCompile>
     <ClCompile Include="CNumberUI.cpp">
       <Filter>Engine\04.Object\UI\NumberUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameMgr.cpp">
+      <Filter>Engine\03. Manager\GameMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
