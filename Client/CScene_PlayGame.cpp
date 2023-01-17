@@ -9,6 +9,7 @@
 #include "CFixedUI.h"
 #include "CResMgr.h"
 #include "CBtnUI.h"
+#include "CNumberUI.h"
 
 #include "CUI.h"
 #include "CPanelUI.h"
@@ -45,8 +46,11 @@ void CScene_PlayGame::Enter()
 	CFixedUI* Panel = new CFixedUI;
 	Panel->SetPos(Vec2(800.f, 20.f));
 	Panel->SetScale(Vec2(150.f, 510.f));
-	
 
+
+	// ===================
+    //      LEVEL  UI
+    // ===================
 	CFixedUI* LevelUI = new CFixedUI;
 	CTexture* leveltex = CResMgr::GetInst()->LoadTexture(L"LevelUITex", L"texture\\levelUI.bmp");
 	LevelUI->SetTexture(leveltex);
@@ -54,6 +58,15 @@ void CScene_PlayGame::Enter()
 	LevelUI->SetScale(Vec2(150.f, 100.f));
 	Panel->AddChild(LevelUI);
 
+	CNumberUI* numUI = new CNumberUI;
+	numUI->SetNumber(3);
+	numUI->SetPos(Vec2(100.f, 200.f));
+	numUI->SetScale(Vec2(50.f, 100.f));
+	Panel->AddChild(numUI);
+
+	// ===================
+	//       ¸ñ¼û UI
+	// ===================
 	CFixedUI* LifeUI = new CFixedUI;
 	CTexture* lifetex = CResMgr::GetInst()->LoadTexture(L"lifeUITex", L"texture\\life.bmp");
 	LifeUI->SetTexture(lifetex);
@@ -68,14 +81,28 @@ void CScene_PlayGame::Enter()
 	xUI->SetScale(Vec2(50.f, 100.f));
 	Panel->AddChild(xUI);
 
+	CNumberUI* FirstnumUI = new CNumberUI;
+	FirstnumUI->SetNumber(5);
+	FirstnumUI->SetPos(Vec2(0.f, 100.f));
+	FirstnumUI->SetScale(Vec2(50.f, 100.f));
+	Panel->AddChild(FirstnumUI);
 
-	CFixedUI* LifeNumUI = new CFixedUI;
-	CTexture* numtex = CResMgr::GetInst()->LoadTexture(L"numTex", L"texture\\3.bmp");
-	LifeNumUI->SetTexture(numtex);
-	LifeNumUI->SetPos(Vec2(100.f, 200.f));
-	LifeNumUI->SetScale(Vec2(50.f, 100.f));
-	Panel->AddChild(LifeNumUI);
+	CNumberUI* SecondUI = new CNumberUI;
+	SecondUI->SetNumber(6);
+	SecondUI->SetPos(Vec2(50.f, 100.f));
+	SecondUI->SetScale(Vec2(50.f, 100.f));
+	Panel->AddChild(SecondUI);
 
+	CNumberUI* ThirdnumUI = new CNumberUI;
+	ThirdnumUI->SetNumber(1);
+	ThirdnumUI->SetPos(Vec2(100.f, 100.f));
+	ThirdnumUI->SetScale(Vec2(50.f, 100.f));
+	Panel->AddChild(ThirdnumUI);
+
+
+	// ==================
+	//       EXIT UI
+	// ==================
 	CBtnUI* ExitGameUI = new CBtnUI;
 	CTexture* exittex = CResMgr::GetInst()->LoadTexture(L"exitTex", L"texture\\Exit.bmp");
 	ExitGameUI->SetTexture(exittex);

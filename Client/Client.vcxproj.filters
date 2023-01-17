@@ -296,6 +296,9 @@
     <ClInclude Include="CSceneOption.h">
       <Filter>Engine\05.Scene\SCene_Option</Filter>
     </ClInclude>
+    <ClInclude Include="CNumberUI.h">
+      <Filter>Engine\04.Object\UI\NumberUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -434,6 +437,9 @@
     </ClCompile>
     <ClCompile Include="CSceneOption.cpp">
       <Filter>Engine\05.Scene\SCene_Option</Filter>
+    </ClCompile>
+    <ClCompile Include="CNumberUI.cpp">
+      <Filter>Engine\04.Object\UI\NumberUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
