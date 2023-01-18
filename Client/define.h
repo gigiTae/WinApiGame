@@ -40,6 +40,7 @@ enum class SCENE_TYPE
 	START,
 	PLAYGMAE,
 	OPTION,
+	GAMEOVER,
 
 	END,
 };

@@ -59,6 +59,7 @@ public:
 	virtual void start() {}; // Scene 이 시작되기 직전에 호출되는 함수
 	virtual void update() = 0;
 	virtual void finalupdate(); // 자식쪽에서 재정의(오버라이딩)가 불가능하다. - final
+
 	virtual void render(HDC _dc);
 
 	void component_render(HDC _dc);

@@ -18,6 +18,12 @@ private:
 	UINT             m_iTileY; // 타일 세로 개수
 
 	CObject*         m_pPlayer;  //Player
+	bool GameOngonig;   // true: 게임 진행중 false: 일시 정지
+
+public:
+	bool IsGameStop() { return !GameOngonig; }
+	void GameStop() { GameOngonig = false; }
+	void GamePlay() { GameOngonig = true; }
 
 public:
 	void SetName(const wstring& _strName) { m_strName = _strName; }

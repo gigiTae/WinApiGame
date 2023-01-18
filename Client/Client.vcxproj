@@ -169,6 +169,7 @@
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneMgr.h" />
     <ClInclude Include="CSceneOption.h" />
+    <ClInclude Include="CScene_GameOver.h" />
     <ClInclude Include="CScene_PlayGame.h" />
     <ClInclude Include="CScene_Start.h" />
     <ClInclude Include="CScene_Tool.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneMgr.cpp" />
     <ClCompile Include="CSceneOption.cpp" />
+    <ClCompile Include="CScene_GameOver.cpp" />
     <ClCompile Include="CScene_PlayGame.cpp" />
     <ClCompile Include="CScene_Start.cpp" />
     <ClCompile Include="CScene_Tool.cpp" />

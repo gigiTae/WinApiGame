@@ -155,6 +155,9 @@
     <Filter Include="Engine\03. Manager\GameMgr">
       <UniqueIdentifier>{91ededb9-81fa-420b-aad4-2264288639ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\05.Scene\SCcene_GameOver">
+      <UniqueIdentifier>{1ad593ed-a415-4276-a88f-e7f8ee115d86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCore.h">
@@ -305,6 +308,9 @@
     <ClInclude Include="CGameMgr.h">
       <Filter>Engine\03. Manager\GameMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CScene_GameOver.h">
+      <Filter>Engine\05.Scene\SCcene_GameOver</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -449,6 +455,9 @@
     </ClCompile>
     <ClCompile Include="CGameMgr.cpp">
       <Filter>Engine\03. Manager\GameMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene_GameOver.cpp">
+      <Filter>Engine\05.Scene\SCcene_GameOver</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
