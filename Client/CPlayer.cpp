@@ -222,12 +222,16 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct)
 	}
 	if (name == L"Missile")
 	{
+		CMissile* missile = (CMissile*)_pOther->GetObj();
+		float CreateTime = missile->GetAfterCreate();
+		if (CreateTime > 2.f)
+		{
 		--m_Hp;
 		tEvent eve = {};
 		eve.eEven = EVENT_TYPE::DELETE_OBJECT;
 		eve.lParam = (DWORD_PTR)_pOther->GetObj();
-
 		CEventMgr::GetInst()->AddEvent(eve);
+		}
 	}
 }
 
@@ -256,9 +260,6 @@ void CPlayer::CreateMissile()
 	NewMissile->SetPos(PlayerPos);
 	NewMissile->SetScale(Vec2(20.f, 20.f));
 	NewMissile->CreateRigidBody();
-
-	// 랜덤 방향 발사
-
 	
 	//난수 초기화
 	std::random_device rd;
@@ -266,6 +267,10 @@ void CPlayer::CreateMissile()
 	std::uniform_int_distribution<int> dir(-200, 200);
 	Vec2 Direct = Vec2((float)dir(gen), -100.f);
 	Direct.Nomalize();
+
+	if (PlayerPos.y < 66.f)
+		Direct.y = -Direct.y;
+
 	NewMissile->SetvDirect(Direct);
 	tEvent evn = {};
 	evn.eEven = EVENT_TYPE::CREATE_OBJECT;
