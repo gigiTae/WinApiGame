@@ -268,7 +268,7 @@ void CPlayer::CreateMissile()
 	Vec2 Direct = Vec2((float)dir(gen), -100.f);
 	Direct.Nomalize();
 
-	if (PlayerPos.y < 66.f)
+	if (PlayerPos.y < 75.f)
 		Direct.y = -Direct.y;
 
 	NewMissile->SetvDirect(Direct);

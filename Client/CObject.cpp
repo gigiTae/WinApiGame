@@ -109,7 +109,7 @@ void CObject::component_render(HDC _dc)
 
 	if (nullptr != m_pCollider)
 	{
-		//m_pCollider->render(_dc);
+		m_pCollider->render(_dc);
 	}
 
 

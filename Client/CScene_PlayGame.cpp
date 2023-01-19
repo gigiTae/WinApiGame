@@ -41,6 +41,7 @@ void CScene_PlayGame::Enter()
 	CPlayer* Player = new CPlayer;
 	Player->SetPos(Vec2(465.f, 250.f));
 	Player->SetName(L"Player");
+	Player->SetPlayerHp(3);
 	Player->SetScale(Vec2(50.f, 50.f));
 
 	AddObject(Player, GROUP_TYPE::PLAYER);
@@ -163,26 +164,20 @@ void CScene_PlayGame::Exit()
 
 void CScene_PlayGame::update()
 {
-	bool gameover = CGameMgr::GetInst()->IsGameOver();
-
-	if (gameover == true)
-	{
-		tEvent eve = {};
-		eve.eEven = EVENT_TYPE::SCENE_CHANGE;
-		eve.lParam = (DWORD_PTR)SCENE_TYPE::GAMEOVER;
-
-		CGameMgr::GetInst()->SetGameOver(false);
-		CEventMgr::GetInst()->AddEvent(eve);
-	}
-
 	CScene::update();
 	if (false == IsGameStop())
 		PlayTime += fDT;
 	CGameMgr::GetInst()->SetNowTime(PlayTime);
 	CGameMgr::GetInst()->update();
-
-	
-
+	bool gameover = CGameMgr::GetInst()->IsGameOver();
+	if (gameover == true)
+	{
+		tEvent eve = {};
+		eve.eEven = EVENT_TYPE::SCENE_CHANGE;
+		eve.lParam = (DWORD_PTR)SCENE_TYPE::GAMEOVER;
+		CGameMgr::GetInst()->SetGameOver(false);
+		CEventMgr::GetInst()->AddEvent(eve);
+	}
 
 
 }

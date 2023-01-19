@@ -3,6 +3,7 @@
 #include "CPlayer.h"
 #include "CNumberUI.h"
 #include "CEventMgr.h"
+#include "CPathMgr.h"
 
 CGameMgr::CGameMgr()
 	:mPlayer(nullptr)
@@ -28,6 +29,45 @@ void CGameMgr::CheckPlayerLife()
 
 	if (0 >= playerhp)
 	{
+		// 파일 저장하기
+		wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+		strFilePath += L"data\\score.info";
+		FILE* pFile = nullptr;
+
+		// bestscore 불러오기
+		_wfopen_s(&pFile, strFilePath.c_str(), L"rb");
+		
+		// 처음으로 데이터 저장
+		if (nullptr == pFile)
+		{
+			_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+			assert(pFile);
+			int DataTime = (int)NowTime;
+			fwrite(&DataTime, sizeof(int), 1, pFile);
+			fwrite(&DataTime, sizeof(int), 1, pFile);
+			fclose(pFile);
+		}
+		// 기존의 데이터가 있음
+		else
+		{
+			int bestscore = 0;
+			fread(&bestscore, sizeof(int), 1, pFile);
+			fclose(pFile);
+
+			if ((int)NowTime > bestscore)
+			{
+				bestscore = (int)NowTime;
+			}
+
+			int DataTime = (int)NowTime;
+			// 이번 데이터 저장하기
+			_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+			assert(pFile);
+			fwrite(&bestscore, sizeof(int), 1, pFile);
+			fwrite(&DataTime, sizeof(int), 1, pFile);
+			fclose(pFile);
+		}
+
 		GameOver= true;
 	}
 
