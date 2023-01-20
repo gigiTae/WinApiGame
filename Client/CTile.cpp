@@ -50,7 +50,7 @@ void CTile::render(HDC _dc)
 		, iCurRow * TILE_SIZE
 		, SRCCOPY);
 
-	//component_render(_dc);
+	component_render(_dc);
 }
 
 void CTile::Save(FILE* _pFile)

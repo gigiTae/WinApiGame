@@ -27,8 +27,8 @@ void CScene_PlayGame::EndGame()
 	tEvent option = {};
 	option.eEven = EVENT_TYPE::SCENE_CHANGE;
 	option.lParam = (DWORD)SCENE_TYPE::START;
-	//start.lParam = SCENE_TYPE::PLAYGMAE;
 
+	 
 	CEventMgr::GetInst()->AddEvent(option);
 }
 
@@ -50,7 +50,6 @@ void CScene_PlayGame::Enter()
 	Panel->SetScale(Vec2(150.f, 510.f));
 
 	CGameMgr::GetInst()->SetmPlayer(Player);
-
 	// ===================
     //      TIME  UI
     // ===================
@@ -149,7 +148,7 @@ void CScene_PlayGame::Enter()
 	// ==================
 	//       충돌 체크
 	// ==================
-	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::PROJ_PLAYER);
+ 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::PROJ_PLAYER);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PLAYER, GROUP_TYPE::TILE);
 	CCollisionMgr::GetInst()->CheckGroup(GROUP_TYPE::PROJ_PLAYER, GROUP_TYPE::TILE);
 	CCamera::GetInst()->SetLookAt(Player->GetPos());
@@ -157,9 +156,13 @@ void CScene_PlayGame::Enter()
 
 void CScene_PlayGame::Exit()
 {
+
+	CCollisionMgr::GetInst()->Reset();
 	DeleteAll();
 	PlayTime = 0.f;
+
 	GamePlay();
+
 }
 
 void CScene_PlayGame::update()
@@ -175,8 +178,8 @@ void CScene_PlayGame::update()
 		tEvent eve = {};
 		eve.eEven = EVENT_TYPE::SCENE_CHANGE;
 		eve.lParam = (DWORD_PTR)SCENE_TYPE::GAMEOVER;
-		CGameMgr::GetInst()->SetGameOver(false);
 		CEventMgr::GetInst()->AddEvent(eve);
+		CGameMgr::GetInst()->SetGameOver(false);
 	}
 
 
