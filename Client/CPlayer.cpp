@@ -5,6 +5,7 @@
 #include "CScene.h"
 #include "CkeyMgr.h"
 #include "CTimeMgr.h"
+#include "CEventMgr.h"
 
 #include "CMissile.h"
 #include "CTexture.h"
@@ -27,12 +28,13 @@ CPlayer::CPlayer()
 	,m_CanMoveA(0)
 	,m_CanMoveS(0)
 	,m_CanMoveD(0)
+	, m_Hp(3)
 {
 	//m_pTex = CResMgr::GetInst()->LoadTexture(L"Player1Tex", L"texture\\c1.bmp");
 
 	CreateCollider();
-	GetCollider()->SetOffsetPos(Vec2(0.f, 24.f));
-	GetCollider()->SetScale(Vec2(32.f, 28.f));
+	GetCollider()->SetOffsetPos(Vec2(0.f, 18.f));
+	GetCollider()->SetScale(Vec2(24.f, 28.f));
 	
 	CreateRigidBody();
 
@@ -86,11 +88,7 @@ void CPlayer::render(HDC _dc)
 
 void CPlayer::update_state()
 {
-	if (GetRigidBody()->GetVelocity() == Vec2(0.f, 0.f))
-	{
-		m_eCurState = PLAYER_STATE::IDLE;
-	}
-
+	
 	if (KEY_TAP(KEY::A))
 	{
 		m_iDir = KEY::A;
@@ -111,8 +109,11 @@ void CPlayer::update_state()
 		m_iDir = KEY::S;
 		m_eCurState = PLAYER_STATE::WALK;
 	}
+	if (GetRigidBody()->GetVelocity() == Vec2(0.f, 0.f) && KEY_NONE(KEY::S) && KEY_NONE(KEY::D) && KEY_NONE(KEY::A) && KEY_NONE(KEY::W))
+	{
+		m_eCurState = PLAYER_STATE::IDLE;
+	}
 
-	
 }
 
 void CPlayer::update_move()
@@ -120,19 +121,19 @@ void CPlayer::update_move()
 
 	CRigidBody* pRigid = GetRigidBody();
 
-	if (KEY_HOLD(KEY::W))
+	if (KEY_HOLD(KEY::W) && m_CanMoveW == 0)
 	{
 		pRigid->AddForce(Vec2(0.f, -1500.f));
 	}
-	if (KEY_HOLD(KEY::S))
+	if (KEY_HOLD(KEY::S) && m_CanMoveS == 0)
 	{
 		pRigid->AddForce(Vec2(0.f, 1500.f));
 	}
-	if (KEY_HOLD(KEY::A))
+	if (KEY_HOLD(KEY::A) && m_CanMoveA == 0)
 	{
 		pRigid->AddForce(Vec2(-1500.f, 0.f));
 	}
-	if (KEY_HOLD(KEY::D))
+	if (KEY_HOLD(KEY::D) && m_CanMoveD == 0)
 	{
 		pRigid->AddForce(Vec2(1500.f, 0.f));
 	}
@@ -181,28 +182,103 @@ void CPlayer::update_gravity()
 
 }
 
-void CPlayer::DirLeftCollision()
+
+
+
+void CPlayer::OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct)
 {
-	
+	wstring name = _pOther->GetObj()->GetName();
+	if (name == L"Tile")
+	{
+		GetRigidBody()->SetVelocity(Vec2(0.f, 0.f));
+		if (_direct == CollisionDirect::LEFT)
+		{
+			++m_CanMoveA;
+			Vec2 vPos = GetPos();
+			vPos.x += 1.f;
+			SetPos(vPos);
+		}
+		if (_direct == CollisionDirect::RIGHT)
+		{
+			++m_CanMoveD;
+			Vec2 vPos = GetPos();
+			vPos.x -= 1.f;
+			SetPos(vPos);
+		}
+		if (_direct == CollisionDirect::DOWN)
+		{
+			++m_CanMoveS;
+			Vec2 vPos = GetPos();
+			vPos.y -= 1.f;
+			SetPos(vPos);
+		}
+		if (_direct == CollisionDirect::UP)
+		{
+			++m_CanMoveW;
+			Vec2 vPos = GetPos();
+			vPos.y += 1.f;
+			SetPos(vPos);
+		}
+	}
+	if (name == L"Missile")
+	{
+		CMissile* missile = (CMissile*)_pOther->GetObj();
+		float CreateTime = missile->GetAfterCreate();
+		if (CreateTime > 2.f)
+		{
+		--m_Hp;
+		tEvent eve = {};
+		eve.eEven = EVENT_TYPE::DELETE_OBJECT;
+		eve.lParam = (DWORD_PTR)_pOther->GetObj();
+		CEventMgr::GetInst()->AddEvent(eve);
+		}
+	}
 }
 
-void CPlayer::DirRightCollision()
+void CPlayer::OnCollisionExit(CCollider* _pOther, CollisionDirect _direct)
 {
+	wstring name = _pOther->GetObj()->GetName();
+	if (name == L"Tile")
+	{
+		if (_direct == CollisionDirect::LEFT)
+			--m_CanMoveA;
+		if (_direct == CollisionDirect::RIGHT)
+			--m_CanMoveD;
+		if (_direct == CollisionDirect::DOWN)
+			--m_CanMoveS;
+		if (_direct == CollisionDirect::UP)
+			--m_CanMoveW;
+	}
 }
-
-void CPlayer::DirUpCollision()
-{
-}
-
-void CPlayer::DirDownCollision()
-{
-}
-
 
 void CPlayer::CreateMissile()
 {
-	//CMissile* NewMissile = new CMissile;
+	Vec2 PlayerPos =GetPos();
+	PlayerPos += Vec2(0.f, -5.f);
+	CMissile* NewMissile = new CMissile;
+	NewMissile->SetName(L"Missile");
+	NewMissile->SetPos(PlayerPos);
+	NewMissile->SetScale(Vec2(20.f, 20.f));
+	NewMissile->CreateRigidBody();
+	
+	//난수 초기화
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> dir(-200, 200);
+	Vec2 Direct = Vec2((float)dir(gen), -100.f);
+	Direct.Nomalize();
+
+	if (PlayerPos.y < 75.f)
+		Direct.y = -Direct.y;
+
+	NewMissile->SetvDirect(Direct);
+	tEvent evn = {};
+	evn.eEven = EVENT_TYPE::CREATE_OBJECT;
+	evn.lParam = (DWORD_PTR)NewMissile;
+	evn.wParam = (DWORD_PTR)GROUP_TYPE::PROJ_PLAYER;
+	CEventMgr::GetInst()->AddEvent(evn);
 }
+
 
 
 

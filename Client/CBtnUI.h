@@ -23,6 +23,8 @@ private:
     CScene*        m_pSceneInst;
     
 public:
+    virtual void render(HDC _dc);
+
     virtual void MouseOn();
     virtual void MouseLbtnDown();
     virtual void MouseLbtnUp();

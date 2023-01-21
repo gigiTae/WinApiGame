@@ -33,6 +33,7 @@ private:
     PLAYER_STATE   m_eCurState;
     PLAYER_STATE   m_ePrevState;
     KEY            m_iDir;
+    int            m_Hp;
 
     float          m_MissileTimer;
     int            m_CanMoveW;
@@ -43,7 +44,8 @@ private:
 public:
     virtual void update();
     virtual void render(HDC _dc);
-
+    int GetPlayerHp() { return m_Hp; }
+    void SetPlayerHp(int _hp) { m_Hp = _hp; }
 private:
     void update_state();
     void update_move();
@@ -51,10 +53,8 @@ private:
     void update_gravity();
 
 private:
-    virtual void DirLeftCollision();
-    virtual void DirRightCollision();
-    virtual void DirUpCollision();
-    virtual void DirDownCollision();
+    virtual void OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct);
+    virtual void OnCollisionExit(CCollider* _pOther, CollisionDirect _direct);
 
     void CreateMissile();
 

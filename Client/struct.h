@@ -135,3 +135,10 @@ public:
 	{}
 };
 
+
+struct COLLISION_INFO
+{
+	CollisionDirect  _LeftDirect;  // 왼쪽   충돌 방향
+	CollisionDirect  _RightDirect; // 오른쪽 충돌 방향    
+	bool             _iscollision; // 충돌중인지 
+};

@@ -40,7 +40,7 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 
 	const vector<CObject*>& vecLeft = pCurScene->GetGroupObject(_eLeft);
 	const vector<CObject*>& vecRight = pCurScene->GetGroupObject(_eRight);
-	map<ULONGLONG, bool>::iterator iter;
+	map<ULONGLONG, COLLISION_INFO>::iterator iter;
 
 	for (size_t i = 0; i < vecLeft.size(); ++i)
 	{
@@ -53,11 +53,11 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 
 			// 충돌체가 없거나, 자기 자신과 충돌인 경우
 			if (nullptr == vecRight[j]->GetCollider()
-				|| vecLeft[i] == vecRight[j]) 
+				|| vecLeft[i] == vecRight[j])
 			{
 				continue;
 			}
-			
+
 			CCollider* pLeftCol = vecLeft[i]->GetCollider();
 			CCollider* pRightCol = vecRight[j]->GetCollider();
 
@@ -65,13 +65,19 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 			COLLIDER_ID ID = {};
 			ID.iLeft_id = pLeftCol->GetID();
 			ID.iRight_id = pRightCol->GetID();
-
 			iter = m_mapColInfo.find(ID.ID);
+
+
+
+			COLLISION_INFO colinfo = {};
+			colinfo._iscollision = false;
+			colinfo._LeftDirect = CollisionDirect::NOINFO;
+			colinfo._RightDirect = CollisionDirect::NOINFO;
 
 			// 충돌 정보가 미 등록 상태인 경우 등록(충돌하지 않았다 로)
 			if (m_mapColInfo.end() == iter)
 			{
-				m_mapColInfo.insert(make_pair(ID.ID, false));
+				m_mapColInfo.insert(make_pair(ID.ID, colinfo));
 				iter = m_mapColInfo.find(ID.ID);
 			}
 
@@ -79,15 +85,17 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 			{
 				// 현재 충동 중이다.
 
-				if (iter->second)
+				if (iter->second._iscollision)
 				{
 					// 이전에도 충동 하고 있었다.
 					if (vecLeft[i]->IsDead() || vecRight[j]->IsDead())
 					{
 						// 근데 둘중 하나가 삭제 예정이라면, 충돌 해제시켜준다.
-						pLeftCol->OnCollisionExit(pRightCol);
-						pRightCol->OnCollisionExit(pLeftCol);
-						iter->second = false;
+						pLeftCol->OnCollisionExit(pRightCol, iter->second._LeftDirect);
+						pRightCol->OnCollisionExit(pLeftCol, iter->second._RightDirect);
+						iter->second._iscollision = false;
+						iter->second._LeftDirect = CollisionDirect::NOINFO;
+						iter->second._RightDirect = CollisionDirect::NOINFO;
 					}
 					else
 					{ 
@@ -102,69 +110,71 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 					if (!vecLeft[i]->IsDead() && !vecRight[j]->IsDead())
 					{
 						// 둘이 처음으로 충돌한 시점
+					
+						// 어느방향에서 충돌한지 검사
 						Vec2 pLeftPos = pLeftCol->GetPrevFinalPos();
 						Vec2 pRightPos = pRightCol->GetPrevFinalPos();
 						Vec2 pLeftScale = pLeftCol->GetScale();
 						Vec2 pRightScale = pRightCol->GetScale();
 
-						if (pLeftPos.x > pRightPos.x && pLeftPos.y >= pRightPos.y ) // 우상단
+						if (pLeftPos.x > pRightPos.x && pLeftPos.y <= pRightPos.y ) // 우상단
+						{
+							Vec2 pLeftVertex = pLeftPos + Vec2(-pLeftScale.x / 2, +pLeftScale.y / 2);
+							Vec2 pRightVertex = pRightPos + Vec2(pRightScale.x / 2, -pRightScale.y / 2);
+							if (pLeftVertex.y < pRightVertex.y)
+							{
+								iter->second._LeftDirect = CollisionDirect::DOWN;
+								iter->second._RightDirect = CollisionDirect::UP;
+							}
+							else
+							{
+								iter->second._LeftDirect = CollisionDirect::LEFT;
+								iter->second._RightDirect = CollisionDirect::RIGHT;
+							}
+						}
+						else if (pLeftPos.x > pRightPos.x && pLeftPos.y > pRightPos.y) // 우하단
 						{
 							Vec2 pLeftVertex = pLeftPos + Vec2(-pLeftScale.x / 2, -pLeftScale.y / 2);
-							Vec2 pRightVertex = pRightPos + Vec2(pRightScale.x / 2, pRightScale.y / 2);
-							if (pLeftVertex.y > pRightVertex.y)
+							Vec2 pRightVertex = pRightPos + Vec2(pRightScale.x / 2, +pRightScale.y / 2);
+							if (pLeftVertex.y < pRightVertex.y)
 							{
-  							    pLeftCol->DirDownCollision();
-								pRightCol->DirUpCollision();
+								iter->second._LeftDirect = CollisionDirect::LEFT;
+								iter->second._RightDirect = CollisionDirect::RIGHT;
 							}
 							else
 							{
-								pLeftCol->DirLeftCollision();
-								pRightCol->DirRightCollision();
+								iter->second._LeftDirect = CollisionDirect::UP;
+								iter->second._RightDirect = CollisionDirect::DOWN;
 							}
 						}
-						else if (pLeftPos.x > pRightPos.x && pLeftPos.y < pRightPos.y) // 우하단
-						{
-							Vec2 pLeftVertex = pLeftPos + Vec2(-pLeftScale.x / 2, pLeftScale.y / 2);
-							Vec2 pRightVertex = pRightPos + Vec2(pRightScale.x / 2, -pRightScale.y / 2);
-							if (pLeftVertex.y > pRightVertex.y)
-							{
-								pLeftCol->DirLeftCollision();
-								pRightCol->DirRightCollision();
-							}
-							else
-							{
-								pLeftCol->DirUpCollision();
-								pRightCol->DirDownCollision();
-							}
-						}
-						else if (pLeftPos.x <= pRightPos.x && pLeftPos.y >= pRightPos.y) // 좌상단
-						{
-							Vec2 pLeftVertex = pLeftPos + Vec2(+pLeftScale.x / 2, -pLeftScale.y / 2);
-							Vec2 pRightVertex = pRightPos + Vec2(-pRightScale.x / 2, +pRightScale.y / 2);
-							if (pLeftVertex.y > pRightVertex.y)
-							{
-								pLeftCol->DirDownCollision();
-								pRightCol->DirUpCollision();
-							}
-							else
-							{
-								pLeftCol->DirRightCollision();
-								pRightCol->DirLeftCollision();
-							}
-						}
-						else if (pLeftPos.x <= pRightPos.x && pLeftPos.y < pRightPos.y) // 좌하단
+						else if (pLeftPos.x <= pRightPos.x && pLeftPos.y <= pRightPos.y) // 좌상단
 						{
 							Vec2 pLeftVertex = pLeftPos + Vec2(+pLeftScale.x / 2, +pLeftScale.y / 2);
 							Vec2 pRightVertex = pRightPos + Vec2(-pRightScale.x / 2, -pRightScale.y / 2);
-							if (pLeftVertex.y > pRightVertex.y)
+							if (pLeftVertex.y < pRightVertex.y)
 							{
-								pLeftCol->DirRightCollision();
-								pRightCol->DirLeftCollision();
+								iter->second._LeftDirect = CollisionDirect::DOWN;
+								iter->second._RightDirect = CollisionDirect::UP;
 							}
 							else
 							{
-								pLeftCol->DirUpCollision();
-								pRightCol->DirDownCollision();
+								iter->second._LeftDirect = CollisionDirect::RIGHT;
+								iter->second._RightDirect = CollisionDirect::LEFT;
+							}
+						}
+						else if (pLeftPos.x <= pRightPos.x && pLeftPos.y > pRightPos.y) // 좌하단
+						{
+							Vec2 pLeftVertex = pLeftPos + Vec2(+pLeftScale.x / 2, -pLeftScale.y / 2);
+							Vec2 pRightVertex = pRightPos + Vec2(-pRightScale.x / 2, +pRightScale.y / 2);
+							if (pLeftVertex.y < pRightVertex.y)
+							{
+								iter->second._LeftDirect = CollisionDirect::RIGHT;
+								iter->second._RightDirect = CollisionDirect::LEFT;
+							}
+							else
+							{
+								iter->second._LeftDirect = CollisionDirect::UP;
+								iter->second._RightDirect = CollisionDirect::DOWN;
 							}
 						}
 						else
@@ -174,10 +184,10 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 				
 						// 자신의 기준에서 어느 방향에서 충동한지 확인,
 
-
-						pLeftCol->OnCollisionEnter(pRightCol);
-						pRightCol->OnCollisionEnter(pLeftCol);
-						iter->second = true;
+						// 서로에게 충돌이 있어났다고 알림
+						pLeftCol->OnCollisionEnter(pRightCol, iter->second._LeftDirect);
+						pRightCol->OnCollisionEnter(pLeftCol, iter->second._RightDirect);
+						iter->second._iscollision = true;
 					}
 				}
 
@@ -185,12 +195,14 @@ void CCollisionMgr::CollisionGroupUpdate(GROUP_TYPE _eLeft, GROUP_TYPE _eRight)
 			else
 			{
 				// 현재 충돌하고 있지 않다.
-				if (iter->second)
+				if (iter->second._iscollision)
 				{
 					// 이전에는 충돌하고 있었다.
-					pLeftCol->OnCollisionExit(pRightCol);
-					pRightCol->OnCollisionExit(pLeftCol);
-					iter->second = false;
+					pLeftCol->OnCollisionExit(pRightCol, iter->second._LeftDirect);
+					pRightCol->OnCollisionExit(pLeftCol, iter->second._RightDirect);
+					iter->second._iscollision = false;
+					iter->second._LeftDirect = CollisionDirect::NOINFO;
+					iter->second._RightDirect = CollisionDirect::NOINFO;
 				}
 			}
 		}
@@ -205,8 +217,8 @@ bool CCollisionMgr::IsCollision(CCollider* _pLeftCol, CCollider* _pRightCol)
 	Vec2 vRightPos = _pRightCol->GetFinalPos();
 	Vec2 vRightScale = _pRightCol->GetScale();
 
-	if (abs(vRightPos.x - vLeftPos.x) < (vLeftScale.x + vRightScale.x) / 2.f
-		&& abs(vRightPos.y - vLeftPos.y) < (vLeftScale.y + vRightScale.y) / 2.f)
+	if (abs(vRightPos.x - vLeftPos.x) <= (vLeftScale.x + vRightScale.x) / 2.f
+		&& abs(vRightPos.y - vLeftPos.y) <= (vLeftScale.y + vRightScale.y) / 2.f)
 	{
 		return true;
 	}

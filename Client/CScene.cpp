@@ -8,11 +8,13 @@
 
 #include "CCore.h"
 #include "CCamera.h"
+#include "CCollider.h"
 
 CScene::CScene()
 	:m_iTileX(0)
 	,m_iTileY(0)
 	,m_pPlayer(nullptr)
+	,GameOngonig(true)
 {
 }
 
@@ -41,13 +43,26 @@ void CScene::start()
 
 void CScene::update()
 {
-	for (UINT i = 0; i < (UINT)GROUP_TYPE::END; ++i)
+	if (GameOngonig == true)
 	{
-		for (size_t j = 0; j < m_arrObj[i].size(); ++j)
+		for (UINT i = 0; i < (UINT)GROUP_TYPE::END; ++i)
 		{
-			if (!m_arrObj[i][j]->IsDead())
+			for (size_t j = 0; j < m_arrObj[i].size(); ++j)
 			{
-				m_arrObj[i][j]->update();
+				if (!m_arrObj[i][j]->IsDead())
+				{
+					m_arrObj[i][j]->update();
+				}
+			}
+		}
+	}
+	else
+	{
+		for (size_t j = 0; j < m_arrObj[(UINT)GROUP_TYPE::UI].size(); ++j)
+		{
+			if (!m_arrObj[(UINT)GROUP_TYPE::UI][j]->IsDead())
+			{
+				m_arrObj[(UINT)GROUP_TYPE::UI][j]->update();
 			}
 		}
 	}
@@ -55,11 +70,21 @@ void CScene::update()
 
 void CScene::finalupdate()
 {
-	for (UINT i = 0; i < (UINT)GROUP_TYPE::END; ++i)
+	if (GameOngonig == true)
 	{
-		for (size_t j = 0; j < m_arrObj[i].size(); ++j)
+		for (UINT i = 0; i < (UINT)GROUP_TYPE::END; ++i)
 		{
-			m_arrObj[i][j]->finalupdate();
+			for (size_t j = 0; j < m_arrObj[i].size(); ++j)
+			{
+				m_arrObj[i][j]->finalupdate();
+			}
+		}
+	}
+	else
+	{
+		for (size_t j = 0; j < m_arrObj[(UINT)GROUP_TYPE::UI].size(); ++j)
+		{
+			m_arrObj[(UINT)GROUP_TYPE::UI][j]->finalupdate();
 		}
 	}
 }
@@ -190,6 +215,13 @@ void CScene::LoadTile(const wstring& _strRelativePath)
 	for (size_t i = 0; i < vecTile.size(); ++i)
 	{
 		((CTile*)vecTile[i])->Load(pFile);
+		if (((CTile*)vecTile[i])->GetImgIdx() != 4)
+		{
+			vecTile[i]->SetName(L"Tile");
+			vecTile[i]->CreateCollider();
+			vecTile[i]->GetCollider()->SetOffsetPos(Vec2(32.f, 32.f));
+			vecTile[i]->GetCollider()->SetScale(Vec2(64.f, 64.f));
+		}
 	}
 
 	fclose(pFile);

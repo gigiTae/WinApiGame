@@ -14,8 +14,10 @@
 #include "CResMgr.h"
 #include "CTexture.h"
 #include "SelectGDI.h"
+#include "CGameMgr.h"
 
 #include "resource.h"
+
 
 CCore::CCore()
 	:m_hWnd(0)
@@ -57,6 +59,10 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	// 메뉴바 생성
 	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCEW(IDC_CLIENT));
 
+	int width = GetSystemMetrics(SM_CXSCREEN);
+	int height = GetSystemMetrics(SM_CYSCREEN);
+
+
 
 	m_hDC = GetDC(m_hWnd);
 
@@ -66,6 +72,7 @@ int CCore::init(HWND _hWnd, POINT _ptResolution)
 	// 자주 사용 할 펜 브러쉬 생성
 	CreateBrushPen();
 
+	
 
 	//Manager 초기화
 	CPathMgr::GetInst()->init();
@@ -125,7 +132,7 @@ void CCore::progress()
 
 void CCore::Clear()
 {
-	SelectGDI gdi(m_pMemTex->GetDC(), BRUSH_TYPE::SKYBLUE);
+	SelectGDI gdi(m_pMemTex->GetDC(), BRUSH_TYPE::BLACK);
 
 	Rectangle(m_pMemTex->GetDC(), -1, -1, m_ptRseolution.x + 1, m_ptRseolution.y + 1);
 }
@@ -136,6 +143,7 @@ void CCore::CreateBrushPen()
 	// hollow brush
 	m_arrBrush[(UINT)BRUSH_TYPE::HOLLOW] = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
 	m_arrBrush[(UINT)BRUSH_TYPE::BLACK] = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	m_arrBrush[(UINT)BRUSH_TYPE::WHITE] = CreateSolidBrush(RGB(255, 255, 255));
 	m_arrBrush[(UINT)BRUSH_TYPE::SKYBLUE] = CreateSolidBrush(RGB(203, 219, 252));
 	m_arrBrush[(UINT)BRUSH_TYPE::DARKBLUE] = CreateSolidBrush(RGB(63, 63, 116));
 	m_arrBrush[(UINT)BRUSH_TYPE::RED] = CreateSolidBrush(RGB(255, 0, 0));

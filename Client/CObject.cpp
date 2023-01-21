@@ -96,17 +96,7 @@ void CObject::finalupdate()
 
 void CObject::render(HDC _dc)
 {
-	Vec2 vRenderPos = CCamera::GetInst()->GetRenderPos(m_vPos);
-
-	SelectGDI gdi(_dc, BRUSH_TYPE::HOLLOW);
-	Rectangle(_dc
-   		 ,(int)(vRenderPos.x +m_vScale.x/2.f)
-         ,(int)(vRenderPos.y +m_vScale.y/2.f)
-         ,(int)(vRenderPos.x - m_vScale.x/2.f)
-		 ,(int)(vRenderPos.y - m_vScale.y/2.f));
-
 	component_render(_dc);
-
 }
 
 void CObject::component_render(HDC _dc)
@@ -119,7 +109,7 @@ void CObject::component_render(HDC _dc)
 
 	if (nullptr != m_pCollider)
 	{
-		m_pCollider->render(_dc);
+		//m_pCollider->render(_dc);
 	}
 
 

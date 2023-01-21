@@ -6,6 +6,7 @@
 #include "CEventMgr.h"
 #include "CScene_PlayGame.h"
 #include "CSceneOption.h"
+#include "CScene_GameOver.h"
 
 CSceneMgr::CSceneMgr()
 	: m_arrScene{}
@@ -39,6 +40,9 @@ void CSceneMgr::init()
 
 	m_arrScene[(UINT)SCENE_TYPE::OPTION] = new CSceneOption;
 	m_arrScene[(UINT)SCENE_TYPE::OPTION]->SetName(L"Option Scene");
+
+	m_arrScene[(UINT)SCENE_TYPE::GAMEOVER] = new CScene_GameOver;
+	m_arrScene[(UINT)SCENE_TYPE::GAMEOVER]->SetName(L"GameOver Scene");
 
 	// 현재 씬 지정
 	m_pCurScene = m_arrScene[(UINT)SCENE_TYPE::PLAYGMAE];

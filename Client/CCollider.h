@@ -2,6 +2,7 @@
 
 class CObject;
 
+
 class CCollider
 {
 private:
@@ -41,18 +42,10 @@ public:
 public:
 	// 충돌 시점 함수
 	void OnCollision(CCollider* _pOther); // 충돌 중인 경우 호출되는 함수
-	void OnCollisionExit(CCollider* _pOther); // 충돌 해제시
-
-	void OnCollisionEnter(CCollider* _pOther); // 충돌 진입시
-    
-	void DirLeftCollision();
-	void DirRightCollision();
-	void DirUpCollision();
-	void DirDownCollision();
-
+	void OnCollisionExit(CCollider* _pOther, CollisionDirect _direct); // 충돌 해제시
+	void OnCollisionEnter(CCollider* _pOther, CollisionDirect _direct); // 충돌 진입시
 
 	CCollider& operator = (CCollider& _orgin) = delete;
-
 public:
 	CCollider();
 	CCollider(const CCollider& _origin);

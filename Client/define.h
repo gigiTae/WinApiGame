@@ -40,6 +40,7 @@ enum class SCENE_TYPE
 	START,
 	PLAYGMAE,
 	OPTION,
+	GAMEOVER,
 
 	END,
 };
@@ -48,6 +49,7 @@ enum class BRUSH_TYPE
 {
 	HOLLOW,
 	BLACK,
+	WHITE,
 	SKYBLUE,
 	DARKBLUE,
 	RED,
@@ -85,4 +87,13 @@ enum class MON_STATE
 	RUN,
 	DEAD,
 	END,
+};
+
+enum class CollisionDirect // 충돌방향
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	NOINFO, // 충돌하지 않음
 };
