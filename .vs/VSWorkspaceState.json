@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Client"
   ],
-  "SelectedNode": "\\WinApiLecture.sln",
+  "SelectedNode": "\\Client\\CCollider.h",
   "PreviewInSolutionExplorer": false
 }
